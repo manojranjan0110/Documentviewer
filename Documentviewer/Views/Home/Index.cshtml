@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+ </head>
+<input type="text" id="searchBox" placeholder="Enter keyword..." />
+<button id="searchBtn">Search</button>
+
+<ul id="resultList"></ul>
+
+<script>
+
+    $("#searchBtn").on("click", function() {
+        var keyword = $("#searchBox").val();
+        $.get(`/api/document/search?keyword=${keyword}`, function(data) {
+            $("#resultList").empty();
+            if (data.length === 0) {
+                $("#resultList").append("<li>No results found.</li>");
+            } else {
+                data.forEach(d => $("#resultList").append(`<li>${d}</li>`));
+            }
+        });
+    });
+</script>

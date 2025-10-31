@@ -1,0 +1,19 @@
+sps_FileName 
+1: Applied proper aliasing for improved readability and maintainability.
+Updated version : [dbo].[sps_FileName_V1] 
+
+
+[dbo].[SPS_FileSelect]
+
+1: Removed multiple RIGHT(DocName, X) calls by handling .docx, .xlsx, and .pptx extensions separately in a nested CASE.
+
+Updated version : [dbo].[SPS_FileSelect_V1]
+
+
+ [dbo].[sps_folderDropdown]
+1. Removed unnecessary ISNULL function calls to improve query performance.
+Updated version : [dbo].[sps_folderDropdown_V1]
+
+
+[dbo].[ManagePinData] 
+Replaced COUNT(*) with COUNT(1) for better efficiency in count operations.
