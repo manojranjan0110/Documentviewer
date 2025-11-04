@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     var pdfModal = new bootstrap.Modal($('#pdfModal')[0]);
     var $pdfFrame = $('#pdfFrame');
+/*    $('#loader').hide();*/
 
     $(document).on('click', '.btn-view', function () {
         var fileName = $(this).data('filename');
@@ -39,16 +40,42 @@
     }
 
     $("#searchBtn").on("click", function () {
-        const keyword = $("#keyword").val();
-        $.getJSON(`/Document/Search?keyword=${encodeURIComponent(keyword)}`, function (data) {
-            loadDocuments(data);
+
+        const keyword = $("#keyword").val().trim();
+
+        if (keyword !== "") {
+
+            $('#pageLoader').show();
+            $('body').css('pointer-events', 'none');
+
+        }
+        $.ajax({
+            url: `/Document/Search?keyword=${encodeURIComponent(keyword)}`,
+            type: "GET",
+            dataType: "json",
+
+            success: function (data) {
+                loadDocuments(data);
+            },
+
+            error: function (xhr, status, error) {
+                console.error("Search failed:", error);
+                alert("Something went wrong while searching.");
+            },
+
+            complete: function () {
+                $('#pageLoader').hide();
+                $('body').css('pointer-events', 'auto');
+            }
         });
     });
+
 
     $("#resetBtn").on("click", function () {
         $("#keyword").val('');
         $.getJSON(`/Document/Search`, function (data) {
             loadDocuments(data);
+
         });
     });
 
